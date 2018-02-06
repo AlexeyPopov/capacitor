@@ -1,6 +1,7 @@
 (ns capacitor.http
   (:require [clojure.string :refer [split escape join upper-case]]
             [clj-http.client :as http-client]
+            [clj-http.conn-mgr :as http-mgr]
             [clojure.algo.generic.functor :refer [fmap]])
   (:import [java.net URLEncoder]))
 
@@ -44,7 +45,8 @@
   {:socket-timeout        1000 ;; in ms
    :conn-timeout          1000 ;; in ms
    :accept                :json
-   :throw-entire-message? true})
+   :throw-entire-message? true
+   :insecure?             true})
 
 (defn gen-url-fn
   ^{:no-doc true
@@ -96,5 +98,6 @@
 
 (defn post
   [client action data]
-  (let [url (gen-url client action)]
-    (http-client/post url {:body data})))
+  (let [url (gen-url client action)
+        opts (merge default-get-opts (:get-opts client) {:as :json} {:body data})]
+    (http-client/post url opts)))
