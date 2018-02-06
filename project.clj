@@ -1,4 +1,4 @@
-(defproject alexeypopov/capacitor "0.6.2"
+(defproject alexeypopov/capacitor "0.6.3"
   :description "A Clojure client for InfluxDB fork"
   :url "https://github.com/AlexeyPopov/capacitor"
   :license {

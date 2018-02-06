@@ -8,17 +8,23 @@
 
 ;; Results
 ;;
+
 (defn ->maps
   [s]
-  (assoc s :results (vec (map #(zipmap (:columns s) %) (:values s)))))
+  (if (instance? clojure.lang.Seqable s) ;; or (map? s)
+    (assoc s :results (vec (map #(zipmap (:columns s) %) (:values s))))
+    s))
 
 (defn fmap-func
   [depth func data]
-  (if (zero? depth) (func data) (fmap #(fmap-func (dec depth) func %) data)))
+  (if (or (zero? depth)
+          (not (instance? clojure.lang.Seqable data)))
+    (func data)
+    (fmap #(fmap-func (dec depth) func %) data)))
 
 (defn results->maps
   [results]
-  (fmap-func 2 ->maps results))
+  (fmap-func 4 ->maps results))
 
 (defn extract
   [results & [results->maps?]]
