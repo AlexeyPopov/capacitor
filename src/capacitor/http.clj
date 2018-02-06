@@ -17,7 +17,7 @@
 
 (defn results->maps
   [results]
-  (fmap-func 4 ->maps results))
+  (fmap-func 2 ->maps results))
 
 (defn extract
   [results & [results->maps?]]
