@@ -41,6 +41,7 @@
     :username "root"
     :password "root"
     :db       "testdb"
+    :rp       ""
     :version  "0.9"})
 
 (defn make-client
@@ -74,7 +75,9 @@
                "&"
                "u=" (client :username)
                "&"
-               "p=" (client :password))
+               "p=" (client :password)
+               "&"
+               "rp=" (client :rp))
         (contains? #{:db-query :list-series} action)
           (str "/query?"
                "db=" (client :db)
